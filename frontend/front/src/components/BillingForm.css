@@ -1,0 +1,159 @@
+.billing-form {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+}
+
+@media (max-width: 600px) {
+  .billing-form {
+    max-width: 100%;
+    padding: 10px;
+  }
+  .entries-section {
+    padding-top: 10px;
+    margin-top: 20px;
+  }
+  button {
+    font-size: 15px;
+    padding: 10px 12px;
+  }
+  .form-group input {
+    font-size: 15px;
+    padding: 8px;
+  }
+  .result-group p {
+    font-size: 15px;
+  }
+}
+
+.billing-form h2 {
+  text-align: center;
+  color: #333;
+  margin-bottom: 30px;
+}
+
+.message {
+  padding: 10px 15px;
+  margin-bottom: 20px;
+  border-radius: 5px;
+  font-weight: bold;
+}
+
+.message.success {
+  background-color: #d4edda;
+  color: #155724;
+  border: 1px solid #c3e6cb;
+}
+
+.message.error {
+  background-color: #f8d7da;
+  color: #721c24;
+  border: 1px solid #f5c6cb;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+  color: #555;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 16px;
+}
+
+.form-group input:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
+}
+
+.result-group {
+  background-color: #f8f9fa;
+  padding: 15px;
+  border-radius: 5px;
+  margin-bottom: 20px;
+  border: 1px solid #dee2e6;
+}
+
+.result-group p {
+  margin: 5px 0;
+  font-size: 16px;
+}
+
+.result-group span {
+  font-weight: bold;
+  color: #007bff;
+}
+
+button {
+  background-color: #007bff;
+  color: white;
+  padding: 12px 24px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  width: 100%;
+}
+
+button:hover:not(:disabled) {
+  background-color: #0056b3;
+}
+
+button:disabled {
+  background-color: #6c757d;
+  cursor: not-allowed;
+}
+
+.entries-section {
+  margin-top: 40px;
+  padding-top: 20px;
+  border-top: 2px solid #dee2e6;
+}
+
+.entries-section h3 {
+  color: #333;
+  margin-bottom: 15px;
+}
+
+.refresh-btn {
+  background-color: #28a745;
+  width: auto;
+  margin-bottom: 15px;
+}
+
+.refresh-btn:hover {
+  background-color: #218838;
+}
+
+.entries-list {
+  max-height: 400px;
+  overflow-y: auto;
+  border: 1px solid #dee2e6;
+  border-radius: 5px;
+}
+
+.entry-item {
+  padding: 15px;
+  border-bottom: 1px solid #dee2e6;
+  background-color: #f8f9fa;
+}
+
+.entry-item:last-child {
+  border-bottom: none;
+}
+
+.entry-item small {
+  color: #6c757d;
+  font-style: italic;
+}
