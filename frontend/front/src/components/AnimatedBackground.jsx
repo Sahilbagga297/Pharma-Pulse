@@ -1,316 +1,317 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useRef, useMemo, useEffect, useState } from 'react';
 
 const AnimatedBackground = ({ children }) => {
-  const particlesRef = useRef(null);
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-  const [isMouseActive, setIsMouseActive] = useState(false);
+  const containerRef = useRef(null);
+  const cursorRef = useRef({ x: 0, y: 0 });
+  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+  const [isHovering, setIsHovering] = useState(false);
+  
+  const particles = useMemo(() => Array.from({ length: 50 }).map((_, i) => ({
+    id: i,
+    size: Math.random() * 6 + 2,
+    color: ['#60a5fa', '#818cf8', '#a78bfa', '#ffffff'][Math.floor(Math.random() * 4)],
+    left: Math.random() * 100,
+    top: Math.random() * 100,
+    opacity: Math.random() * 0.6 + 0.3,
+    duration: Math.random() * 25 + 20,
+    delay: Math.random() * -30,
+    xOffset: Math.random() * 100 - 50,
+  })), []);
+
+  const floatingIcons = useMemo(() => [
+    { icon: '⚕️', size: '4rem', top: 15, left: 12, depth: 3 },
+    { icon: '💊', size: '3.5rem', top: 65, left: 85, depth: 2.5 },
+    { icon: '🩺', size: '3rem', top: 45, left: 8, depth: 2 },
+    { icon: '🧬', size: '3.5rem', top: 25, left: 88, depth: 3.5 },
+    { icon: '💉', size: '2.5rem', top: 80, left: 15, depth: 2 },
+    { icon: '🫀', size: '3rem', top: 35, left: 75, depth: 2.8 },
+  ], []);
 
   useEffect(() => {
-    // Enhanced particle system
-    const createParticles = () => {
-      const particlesContainer = particlesRef.current;
-      if (!particlesContainer) return;
-
-      const particleCount = 30; // Reduced for better performance on other pages
-      particlesContainer.innerHTML = '';
-
-      for (let i = 0; i < particleCount; i++) {
-        const particle = document.createElement('div');
-        particle.className = 'particle';
-        particle.style.cssText = `
-          position: absolute;
-          width: ${Math.random() * 4 + 1}px;
-          height: ${Math.random() * 4 + 1}px;
-          background: ${Math.random() > 0.5 ? '#60a5fa' : '#ffffff'};
-          border-radius: 50%;
-          left: ${Math.random() * 100}%;
-          top: ${Math.random() * 100}%;
-          opacity: ${Math.random() * 0.8 + 0.2};
-          animation: particleMove ${Math.random() * 20 + 15}s linear infinite;
-          box-shadow: 0 0 10px currentColor;
-        `;
-        particlesContainer.appendChild(particle);
-      }
-    };
-
-    // Enhanced mouse tracking for parallax with smoother movement
+    let rafId;
     const handleMouseMove = (e) => {
-      const rect = window.innerWidth;
-      const rectHeight = window.innerHeight;
-      
-      // Calculate normalized mouse position (-1 to 1)
-      const normalizedX = (e.clientX / rect - 0.5) * 2;
-      const normalizedY = (e.clientY / rectHeight - 0.5) * 2;
-      
-      setMousePosition({
-        x: normalizedX * 30, // Reduced multiplier for subtle effect
-        y: normalizedY * 30
+      if (rafId) cancelAnimationFrame(rafId);
+      rafId = requestAnimationFrame(() => {
+        const x = (e.clientX / window.innerWidth - 0.5) * 2;
+        const y = (e.clientY / window.innerHeight - 0.5) * 2;
+        cursorRef.current = { x, y };
+        setMousePos({ x: e.clientX, y: e.clientY });
+        
+        if (containerRef.current) {
+          containerRef.current.style.setProperty('--cursor-x', x.toFixed(3));
+          containerRef.current.style.setProperty('--cursor-y', y.toFixed(3));
+          containerRef.current.style.setProperty('--mouse-x', `${e.clientX}px`);
+          containerRef.current.style.setProperty('--mouse-y', `${e.clientY}px`);
+        }
       });
-      setIsMouseActive(true);
-    };
-    abcdefghijklmnopqrstuvwxyz;
-
-    const handleMouseEnter = () => setIsMouseActive(true);
-    const handleMouseLeave = () => {
-      setIsMouseActive(false);
-      // Smoothly return to center position
-      setMousePosition({ x: 0, y: 0 });
     };
 
-    document.addEventListener('mousemove', handleMouseMove);
+    const handleMouseEnter = () => setIsHovering(true);
+    const handleMouseLeave = () => setIsHovering(false);
+
+    window.addEventListener('mousemove', handleMouseMove);
     document.addEventListener('mouseenter', handleMouseEnter);
     document.addEventListener('mouseleave', handleMouseLeave);
-    createParticles();
-
+    
     return () => {
-      document.removeEventListener('mousemove', handleMouseMove);
+      if (rafId) cancelAnimationFrame(rafId);
+      window.removeEventListener('mousemove', handleMouseMove);
       document.removeEventListener('mouseenter', handleMouseEnter);
       document.removeEventListener('mouseleave', handleMouseLeave);
     };
   }, []);
 
   return (
-    <div className="min-h-screen w-full overflow-hidden relative bg-gradient-to-br from-navy-900 via-blue-900 to-slate-800" style={{ background: 'linear-gradient(135deg, #0f1729 0%, #1e3a8a 50%, #1e293b 100%)' }}>
-      {/* Enhanced CSS Animations */}
-      <style jsx>{`
-        @keyframes particleMove {
-          0% { 
-            transform: translateY(100vh) translateX(0) rotate(0deg); 
-            opacity: 0; 
+    <div className="relative min-h-screen w-full">
+      <div
+        ref={containerRef}
+        className="fixed inset-0 w-full h-full overflow-hidden"
+        style={{
+          background: 'linear-gradient(135deg, #0a0f1e 0%, #1e3a8a 40%, #2d1b4e 70%, #1e293b 100%)',
+          zIndex: 0,
+          '--cursor-x': 0,
+          '--cursor-y': 0,
+          '--mouse-x': '50%',
+          '--mouse-y': '50%',
+        }}
+      >
+        <style jsx>{`
+          @keyframes particleFloat {
+            0% { 
+              transform: translateY(100vh) translateX(0) rotate(0deg) scale(0); 
+              opacity: 0; 
+            }
+            10% { 
+              opacity: 1; 
+              transform: translateY(90vh) translateX(var(--x-offset)) rotate(36deg) scale(1);
+            }
+            90% { 
+              opacity: 1; 
+            }
+            100% { 
+              transform: translateY(-10vh) translateX(calc(var(--x-offset) * -0.5)) rotate(360deg) scale(0.5); 
+              opacity: 0; 
+            }
           }
-          10% { opacity: 1; }
-          90% { opacity: 0.8; }
-          100% { 
-            transform: translateY(-100px) translateX(${Math.random() * 200 - 100}px) rotate(360deg); 
-            opacity: 0; 
+
+          @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.3; }
+            50% { transform: scale(1.05); opacity: 0.5; }
           }
-        }
 
-        @keyframes float {
-          0%, 100% { 
-            transform: translateY(0px) rotate(0deg) scale(1); 
-            opacity: 0.7; 
+          @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(5deg); }
           }
-          50% { 
-            transform: translateY(-20px) rotate(180deg) scale(1.1); 
-            opacity: 1; 
+
+          @keyframes iconFloat {
+            0%, 100% { transform: translateY(0) rotate(0deg) scale(1); }
+            33% { transform: translateY(-15px) rotate(3deg) scale(1.05); }
+            66% { transform: translateY(-8px) rotate(-3deg) scale(0.98); }
           }
-        }
 
-        @keyframes pulse {
-          0%, 100% { 
-            transform: scale(1); 
-            opacity: 0.4; 
+          .cursor-glow {
+            position: absolute;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(96, 165, 250, 0.4) 0%, transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+            mix-blend-mode: screen;
+            transform: translate(-50%, -50%);
+            transition: opacity 0.3s ease;
+            filter: blur(40px);
           }
-          50% { 
-            transform: scale(1.2); 
-            opacity: 0.8; 
+
+          .magnetic-icon {
+            transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+            filter: drop-shadow(0 0 10px currentColor);
           }
-        }
 
-        /* Enhanced parallax animations */
-        .parallax-element {
-          transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-          will-change: transform;
-        }
+          // .parallax-1 { 
+          //   transform: translate(calc(var(--cursor-x) * 15px), calc(var(--cursor-y) * 15px));
+          //   transition: transform 0.1s ease-out;
+          // }
+          // .parallax-2 { 
+          //   transform: translate(calc(var(--cursor-x) * 30px), calc(var(--cursor-y) * 30px));
+          //   transition: transform 0.15s ease-out;
+          // }
+          // .parallax-3 { 
+          //   transform: translate(calc(var(--cursor-x) * 50px), calc(var(--cursor-y) * 50px));
+          //   transition: transform 0.2s ease-out;
+          // }
 
-        .parallax-slow {
-          transition: transform 0.6s cubic-bezier(0.23, 1, 0.320, 1);
-        }
-
-        .parallax-fast {
-          transition: transform 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-        }
-
-        /* Interactive cursor effects */
-        .cursor-magnetic {
-          transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-        }
-
-        .cursor-magnetic:hover {
-          transform: scale(1.05);
-        }
-
-        @keyframes wave {
-          0% { transform: translateX(-100%) scaleY(1); }
-          50% { transform: translateX(0%) scaleY(1.1); }
-          100% { transform: translateX(100%) scaleY(1); }
-        }
-
-        @keyframes medical-pulse {
-          0%, 100% { 
-            transform: scale(1) rotate(0deg); 
-            filter: hue-rotate(0deg); 
+          .grid-overlay {
+            background-image: 
+              linear-gradient(rgba(96, 165, 250, 0.03) 1px, transparent 1px),
+              linear-gradient(90deg, rgba(96, 165, 250, 0.03) 1px, transparent 1px);
+            background-size: 50px 50px;
+            animation: gridMove 20s linear infinite;
           }
-          50% { 
-            transform: scale(1.3) rotate(180deg); 
-            filter: hue-rotate(90deg); 
+
+          @keyframes gridMove {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(50px, 50px); }
           }
-        }
 
-        @keyframes dna-rotate {
-          0% { transform: rotate(0deg) translateY(-50%); }
-          100% { transform: rotate(360deg) translateY(-50%); }
-        }
+          // .ripple {
+          //   position: absolute;
+          //   border-radius: 50%;
+          //   border: 2px solid rgba(96, 165, 250, 0.4);
+          //   animation: rippleEffect 2s ease-out infinite;
+          // }
 
-        @keyframes gradient-shift {
-          0% { background-position: 0% 50%; }
-          50% { background-position: 100% 50%; }
-          100% { background-position: 0% 50%; }
-        }
+          @keyframes rippleEffect {
+            0% { width: 0; height: 0; opacity: 1; }
+            100% { width: 300px; height: 300px; opacity: 0; }
+          }
+        `}</style>
 
-        .animate-float { animation: float 6s ease-in-out infinite; }
-        .animate-pulse-custom { animation: pulse 3s ease-in-out infinite; }
-        .animate-wave { animation: wave 8s ease-in-out infinite; }
-        .animate-medical-pulse { animation: medical-pulse 4s ease-in-out infinite; }
-        .animate-dna { animation: dna-rotate 20s linear infinite; }
-        .animate-gradient { animation: gradient-shift 6s ease-in-out infinite; }
-
-        .glass-effect {
-          background: rgba(255, 255, 255, 0.1);
-          backdrop-filter: blur(20px);
-          border: 1px solid rgba(255, 255, 255, 0.2);
-        }
-
-        .gradient-text {
-          background: linear-gradient(45deg, #ffffff, #60a5fa, #3b82f6, #1e40af);
-          background-size: 400% 400%;
-          -webkit-background-clip: text;
-          -webkit-text-fill-color: transparent;
-          animation: gradient-shift 3s ease-in-out infinite;
-        }
-
-        .medical-icon {
-          filter: drop-shadow(0 0 20px rgba(96, 165, 250, 0.6));
-        }
-      `}</style>
-
-      {/* Dynamic Background Elements */}
-      <div className="absolute inset-0 overflow-hidden">
-        {/* Particles */}
-        <div ref={particlesRef} className="absolute inset-0" />
-
-        {/* Animated Background Shapes with Enhanced Parallax */}
+        {/* Cursor glow effect */}
         <div 
-          className="absolute w-96 h-96 rounded-full bg-gradient-to-r from-blue-400 to-blue-600 opacity-20 animate-float parallax-element cursor-magnetic"
-          style={{ 
-            top: '10%', 
-            left: '5%',
-            transform: `translate(${mousePosition.x * 0.8}px, ${mousePosition.y * 0.6}px) scale(${isMouseActive ? 1.1 : 1})`
-          }}
-        />
-        <div 
-          className="absolute w-80 h-80 rounded-full bg-gradient-to-r from-slate-400 to-blue-500 opacity-15 animate-float parallax-slow cursor-magnetic"
-          style={{ 
-            top: '50%', 
-            right: '10%',
-            animationDelay: '2s',
-            transform: `translate(${mousePosition.x * -0.5}px, ${mousePosition.y * -0.4}px) scale(${isMouseActive ? 1.05 : 1})`
-          }}
-        />
-        <div 
-          className="absolute w-64 h-64 rounded-full bg-gradient-to-r from-white to-blue-400 opacity-10 animate-pulse-custom parallax-fast cursor-magnetic"
-          style={{ 
-            bottom: '20%', 
-            left: '20%',
-            transform: `translate(${mousePosition.x * 1.2}px, ${mousePosition.y * 0.8}px) scale(${isMouseActive ? 1.15 : 1})`
-          }}
-        />
-
-        {/* Additional Interactive Elements */}
-        <div 
-          className="absolute w-48 h-48 rounded-full bg-gradient-to-r from-blue-300 to-slate-400 opacity-8 animate-float parallax-element"
-          style={{ 
-            top: '70%', 
-            right: '25%',
-            animationDelay: '4s',
-            transform: `translate(${mousePosition.x * 0.3}px, ${mousePosition.y * -0.7}px) rotate(${mousePosition.x * 0.5}deg)`
-          }}
-        />
-        <div 
-          className="absolute w-32 h-32 rounded-full bg-gradient-to-r from-white to-blue-500 opacity-12 animate-pulse-custom parallax-fast"
-          style={{ 
-            top: '30%', 
-            left: '70%',
-            transform: `translate(${mousePosition.x * -0.9}px, ${mousePosition.y * 1.1}px) rotate(${mousePosition.y * 0.3}deg)`
-          }}
-        />
-
-        {/* Enhanced Medical Icons with Cursor Response */}
-        <div 
-          className="absolute top-1/4 left-1/4 text-6xl medical-icon animate-medical-pulse parallax-element cursor-magnetic" 
-          style={{ 
-            animationDelay: '1s',
-            transform: `translate(${mousePosition.x * 0.4}px, ${mousePosition.y * -0.6}px) scale(${isMouseActive ? 1.2 : 1})`
-          }}
-        >⚕️</div>
-        <div 
-          className="absolute top-3/4 right-1/4 text-5xl medical-icon animate-medical-pulse parallax-slow cursor-magnetic" 
-          style={{ 
-            animationDelay: '3s',
-            transform: `translate(${mousePosition.x * -0.7}px, ${mousePosition.y * 0.5}px) scale(${isMouseActive ? 1.15 : 1})`
-          }}
-        >💊</div>
-        <div 
-          className="absolute top-1/2 left-1/6 text-4xl medical-icon animate-medical-pulse parallax-fast cursor-magnetic" 
-          style={{ 
-            animationDelay: '2s',
-            transform: `translate(${mousePosition.x * 0.9}px, ${mousePosition.y * -0.3}px) rotate(${mousePosition.x * 0.2}deg) scale(${isMouseActive ? 1.25 : 1})`
-          }}
-        >🩺</div>
-
-        {/* Additional Floating Medical Elements */}
-        <div 
-          className="absolute top-1/6 right-1/3 text-3xl medical-icon animate-medical-pulse parallax-element" 
-          style={{ 
-            animationDelay: '5s',
-            transform: `translate(${mousePosition.x * -0.4}px, ${mousePosition.y * 0.8}px) rotate(${mousePosition.y * -0.3}deg)`
-          }}
-        >🧬</div>
-        <div 
-          className="absolute bottom-1/3 left-1/3 text-3xl medical-icon animate-medical-pulse parallax-slow" 
-          style={{ 
-            animationDelay: '4s',
-            transform: `translate(${mousePosition.x * 0.6}px, ${mousePosition.y * -0.9}px) scale(${isMouseActive ? 1.1 : 0.9})`
-          }}
-        >🔬</div>
-
-        {/* Enhanced DNA Helix with Cursor Response */}
-        <div 
-          className="absolute top-1/2 right-8 w-20 h-40 opacity-30 animate-dna parallax-element"
+          className="cursor-glow"
           style={{
-            transform: `translate(${mousePosition.x * -0.3}px, ${mousePosition.y * 0.4}px) scale(${isMouseActive ? 1.1 : 1})`
+            left: 'var(--mouse-x)',
+            top: 'var(--mouse-y)',
+            opacity: isHovering ? 1 : 0,
           }}
-        >
+        />
+
+        {/* Animated grid overlay */}
+        <div className="absolute inset-0 grid-overlay opacity-20" />
+
+        {/* Particles */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          {particles.map((p) => (
+            <div
+              key={p.id}
+              className="absolute rounded-full"
+              style={{
+                width: p.size,
+                height: p.size,
+                background: p.color,
+                boxShadow: `0 0 ${p.size * 2}px ${p.color}`,
+                left: `${p.left}%`,
+                top: `${p.top}%`,
+                opacity: p.opacity,
+                animation: `particleFloat ${p.duration}s ease-in-out infinite`,
+                animationDelay: `${p.delay}s`,
+                '--x-offset': `${p.xOffset}px`,
+              }}
+            />
+          ))}
+        </div>
+
+        {/* Gradient orbs with parallax */}
+        <div className="absolute inset-0 parallax-1">
           <div 
-            className="absolute left-2 w-1 h-full bg-gradient-to-b from-blue-400 to-blue-600 rounded-full parallax-fast" 
-            style={{
-              transform: `translateX(${mousePosition.x * 0.1}px)`
-            }}
+            className="absolute w-[500px] h-[500px] rounded-full bg-blue-600 blur-[120px] opacity-20"
+            style={{ 
+              top: '5%', 
+              left: '5%',
+              animation: 'pulse 8s ease-in-out infinite',
+            }} 
           />
           <div 
-            className="absolute right-2 w-1 h-full bg-gradient-to-b from-white to-blue-400 rounded-full parallax-fast" 
-            style={{
-              transform: `translateX(${mousePosition.x * -0.1}px)`
-            }}
+            className="absolute w-[400px] h-[400px] rounded-full bg-purple-600 blur-[100px] opacity-15"
+            style={{ 
+              top: '50%', 
+              left: '50%',
+              animation: 'pulse 10s ease-in-out infinite',
+              animationDelay: '-3s',
+            }} 
           />
         </div>
 
-        {/* Interactive Wave Effect */}
-        <div 
-          className="absolute bottom-0 w-full h-32 bg-gradient-to-r from-transparent via-white to-transparent opacity-10 animate-wave parallax-slow"
-          style={{
-            transform: `translateY(${mousePosition.y * 0.2}px) scaleY(${isMouseActive ? 1.2 : 1})`
-          }}
-        />
+        <div className="absolute inset-0 parallax-2">
+          <div 
+            className="absolute w-[600px] h-[600px] rounded-full bg-indigo-600 blur-[140px] opacity-15"
+            style={{ 
+              bottom: '5%', 
+              right: '5%',
+              animation: 'pulse 12s ease-in-out infinite',
+              animationDelay: '-5s',
+            }} 
+          />
+        </div>
+
+        {/* Wave effect */}
+        <div className="absolute inset-0 parallax-2">
+          <div 
+            className="absolute bottom-0 w-full h-64 bg-gradient-to-t from-blue-500/15 to-transparent"
+            style={{ 
+              clipPath: 'polygon(0% 100%, 100% 100%, 100% 30%, 0% 60%)',
+              animation: 'float 6s ease-in-out infinite',
+            }} 
+          />
+        </div>
+
+        {/* Interactive medical icons */}
+        <div className="absolute inset-0 parallax-3">
+          {floatingIcons.map((item, idx) => (
+            <div
+              key={idx}
+              className="absolute magnetic-icon"
+              style={{
+                top: `${item.top}%`,
+                left: `${item.left}%`,
+                fontSize: item.size,
+                opacity: 0.25,
+                animation: `iconFloat ${5 + idx * 0.5}s ease-in-out infinite`,
+                animationDelay: `${idx * -0.8}s`,
+                transform: `translate(
+                  calc(var(--cursor-x) * ${item.depth * 20}px),
+                  calc(var(--cursor-y) * ${item.depth * 20}px)
+                )`,
+                transition: 'transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), filter 0.3s ease',
+                cursor: 'pointer',
+              }}
+            >
+              {item.icon}
+            </div>
+          ))}
+        </div>
+
+        {/* Ripple effects at cursor */}
+        {isHovering && (
+          <div
+            className="ripple"
+            style={{
+              left: 'var(--mouse-x)',
+              top: 'var(--mouse-y)',
+              transform: 'translate(-50%, -50%)',
+            }}
+          />
+        )}
       </div>
 
-      {/* Content */}
-      <div className="relative z-10">
-        {children}
-      </div>
+      <div className="relative z-10 w-full">{children}</div>
     </div>
   );
 };
 
-export default AnimatedBackground;
+// Demo content
+export default function App() {
+  return (
+    <AnimatedBackground>
+      <div className="min-h-screen flex items-center justify-center p-8">
+        <div className="max-w-2xl bg-white/10 backdrop-blur-lg rounded-2xl p-8 border border-white/20 shadow-2xl">
+          <h1 className="text-5xl font-bold text-white mb-4">
+            Interactive Medical Background
+          </h1>
+          <p className="text-xl text-blue-100 mb-6">
+            Move your mouse around to see the parallax effects, glowing cursor trail, and animated particles.
+          </p>
+          <div className="space-y-3 text-white/80">
+            <p>✨ Parallax depth layers</p>
+            <p>🌟 Floating animated particles with glow</p>
+            <p>🎯 Cursor glow effect with ripples</p>
+            <p>💫 Interactive medical icons</p>
+            <p>🌊 Smooth gradient orbs with pulse animation</p>
+            <p>📐 Animated grid overlay</p>
+          </div>
+        </div>
+      </div>
+    </AnimatedBackground>
+  );
+}
