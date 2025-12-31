@@ -48,6 +48,7 @@ const AnimatedBackground = ({ children }) => {
       });
       setIsMouseActive(true);
     };
+    abcdefghijklmnopqrstuvwxyz;
 
     const handleMouseEnter = () => setIsMouseActive(true);
     const handleMouseLeave = () => {
