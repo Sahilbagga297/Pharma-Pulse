@@ -13,7 +13,7 @@ export const useBillingApi = () => {
       setLoading(true);
       setError(null);
       
-      const response = await fetch('http://localhost:5000/api/billing/all', {
+      const response = await fetch('https://pharma-pulse-8vof.onrender.com/api/billing/all', {
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('token')}`
         }
@@ -38,7 +38,7 @@ export const useBillingApi = () => {
       setLoading(true);
       setError(null);
 
-      const response = await fetch('http://localhost:5000/api/billing/save', {
+      const response = await fetch('https://pharma-pulse-8vof.onrender.com/api/billing/save', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -67,7 +67,7 @@ export const useBillingApi = () => {
       setLoading(true);
       setError(null);
 
-      const response = await fetch('http://localhost:5000/api/billing/download', {
+      const response = await fetch('https://pharma-pulse-8vof.onrender.com/api/billing/download', {
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('token')}`
         }
@@ -125,7 +125,7 @@ export const useBillingApi = () => {
       setLoading(true);
       setError(null);
 
-      const response = await fetch('http://localhost:5000/api/billing/create-sample', {
+      const response = await fetch('https://pharma-pulse-8vof.onrender.com/api/billing/create-sample', {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('token')}`

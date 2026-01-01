@@ -28,7 +28,7 @@ const MRDataManagementHome = () => {
 
     setLoading(true);
     try {
-      const response = await fetch(`http://localhost:5000/api/billing/reports?period=${selectedPeriod}`, {
+      const response = await fetch(`https://pharma-pulse-8vof.onrender.com/api/billing/reports?period=${selectedPeriod}`, {
         headers: {
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json'
@@ -65,7 +65,7 @@ const MRDataManagementHome = () => {
     }
 
     try {
-      const response = await fetch(`http://localhost:5000/api/billing/reports/download?period=${selectedPeriod}&format=${format}`, {
+      const response = await fetch(`https://pharma-pulse-8vof.onrender.com/api/billing/reports/download?period=${selectedPeriod}&format=${format}`, {
         headers: {
           'Authorization': `Bearer ${token}`,
         }

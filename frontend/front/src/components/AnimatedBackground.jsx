@@ -5,7 +5,7 @@ const AnimatedBackground = ({ children }) => {
   const cursorRef = useRef({ x: 0, y: 0 });
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
   const [isHovering, setIsHovering] = useState(false);
-  
+
   const particles = useMemo(() => Array.from({ length: 50 }).map((_, i) => ({
     id: i,
     size: Math.random() * 6 + 2,
@@ -36,7 +36,7 @@ const AnimatedBackground = ({ children }) => {
         const y = (e.clientY / window.innerHeight - 0.5) * 2;
         cursorRef.current = { x, y };
         setMousePos({ x: e.clientX, y: e.clientY });
-        
+
         if (containerRef.current) {
           containerRef.current.style.setProperty('--cursor-x', x.toFixed(3));
           containerRef.current.style.setProperty('--cursor-y', y.toFixed(3));
@@ -52,7 +52,7 @@ const AnimatedBackground = ({ children }) => {
     window.addEventListener('mousemove', handleMouseMove);
     document.addEventListener('mouseenter', handleMouseEnter);
     document.addEventListener('mouseleave', handleMouseLeave);
-    
+
     return () => {
       if (rafId) cancelAnimationFrame(rafId);
       window.removeEventListener('mousemove', handleMouseMove);
@@ -168,7 +168,7 @@ const AnimatedBackground = ({ children }) => {
         `}</style>
 
         {/* Cursor glow effect */}
-        <div 
+        <div
           className="cursor-glow"
           style={{
             left: 'var(--mouse-x)',
@@ -204,45 +204,45 @@ const AnimatedBackground = ({ children }) => {
 
         {/* Gradient orbs with parallax */}
         <div className="absolute inset-0 parallax-1">
-          <div 
+          <div
             className="absolute w-[500px] h-[500px] rounded-full bg-blue-600 blur-[120px] opacity-20"
-            style={{ 
-              top: '5%', 
+            style={{
+              top: '5%',
               left: '5%',
               animation: 'pulse 8s ease-in-out infinite',
-            }} 
+            }}
           />
-          <div 
+          <div
             className="absolute w-[400px] h-[400px] rounded-full bg-purple-600 blur-[100px] opacity-15"
-            style={{ 
-              top: '50%', 
+            style={{
+              top: '50%',
               left: '50%',
               animation: 'pulse 10s ease-in-out infinite',
               animationDelay: '-3s',
-            }} 
+            }}
           />
         </div>
 
         <div className="absolute inset-0 parallax-2">
-          <div 
+          <div
             className="absolute w-[600px] h-[600px] rounded-full bg-indigo-600 blur-[140px] opacity-15"
-            style={{ 
-              bottom: '5%', 
+            style={{
+              bottom: '5%',
               right: '5%',
               animation: 'pulse 12s ease-in-out infinite',
               animationDelay: '-5s',
-            }} 
+            }}
           />
         </div>
 
         {/* Wave effect */}
         <div className="absolute inset-0 parallax-2">
-          <div 
+          <div
             className="absolute bottom-0 w-full h-64 bg-gradient-to-t from-blue-500/15 to-transparent"
-            style={{ 
+            style={{
               clipPath: 'polygon(0% 100%, 100% 100%, 100% 30%, 0% 60%)',
               animation: 'float 6s ease-in-out infinite',
-            }} 
+            }}
           />
         </div>
 
@@ -288,30 +288,5 @@ const AnimatedBackground = ({ children }) => {
       <div className="relative z-10 w-full">{children}</div>
     </div>
   );
-};
-
-// Demo content
-export default function App() {
-  return (
-    <AnimatedBackground>
-      <div className="min-h-screen flex items-center justify-center p-8">
-        <div className="max-w-2xl bg-white/10 backdrop-blur-lg rounded-2xl p-8 border border-white/20 shadow-2xl">
-          <h1 className="text-5xl font-bold text-white mb-4">
-            Interactive Medical Background
-          </h1>
-          <p className="text-xl text-blue-100 mb-6">
-            Move your mouse around to see the parallax effects, glowing cursor trail, and animated particles.
-          </p>
-          <div className="space-y-3 text-white/80">
-            <p>✨ Parallax depth layers</p>
-            <p>🌟 Floating animated particles with glow</p>
-            <p>🎯 Cursor glow effect with ripples</p>
-            <p>💫 Interactive medical icons</p>
-            <p>🌊 Smooth gradient orbs with pulse animation</p>
-            <p>📐 Animated grid overlay</p>
-          </div>
-        </div>
-      </div>
-    </AnimatedBackground>
-  );
 }
+export default AnimatedBackground;

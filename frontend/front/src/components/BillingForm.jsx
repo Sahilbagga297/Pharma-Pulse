@@ -42,7 +42,7 @@ const MRSalesTransactionDashboard = () => {
         return;
       }
 
-      const response = await fetch('http://localhost:5000/api/doctors', {
+      const response = await fetch('https://pharma-pulse-8vof.onrender.com/api/doctors', {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -175,7 +175,7 @@ const MRSalesTransactionDashboard = () => {
       }
 
       // Create new doctor
-      const doctorResponse = await fetch('http://localhost:5000/api/doctors', {
+      const doctorResponse = await fetch('https://pharma-pulse-8vof.onrender.com/api/doctors', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -204,7 +204,7 @@ const MRSalesTransactionDashboard = () => {
         // If doctor already exists, handle it gracefully
         if (doctorResponse.status === 409 && existingDoctor) {
           // Refresh doctors list to include the existing doctor
-          const doctorsResponse = await fetch('http://localhost:5000/api/doctors', {
+          const doctorsResponse = await fetch('https://pharma-pulse-8vof.onrender.com/api/doctors', {
             headers: {
               'Authorization': `Bearer ${token}`
             }
@@ -237,7 +237,7 @@ const MRSalesTransactionDashboard = () => {
       const doctorData = await doctorResponse.json();
       
       // Add doctor visit (this will automatically set visits to 1)
-      const visitResponse = await fetch('http://localhost:5000/api/billing/profile/visit', {
+      const visitResponse = await fetch('https://pharma-pulse-8vof.onrender.com/api/billing/profile/visit', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -261,7 +261,7 @@ const MRSalesTransactionDashboard = () => {
       }
 
       // Refresh doctors list
-      const doctorsResponse = await fetch('http://localhost:5000/api/doctors', {
+      const doctorsResponse = await fetch('https://pharma-pulse-8vof.onrender.com/api/doctors', {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -493,7 +493,7 @@ const MRSalesTransactionDashboard = () => {
         amountToPay: netAmount,
         totalAmount: totalOrderAmount
       };
-      const response = await fetch(`http://localhost:5000/api/billing/${id}`, {
+      const response = await fetch(`https://pharma-pulse-8vof.onrender.com/api/billing/${id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -530,7 +530,7 @@ const MRSalesTransactionDashboard = () => {
     if (window.confirm('Are you sure you want to delete this billing entry? This action cannot be undone.')) {
       try {
         setLoading(true);
-        const response = await fetch(`http://localhost:5000/api/billing/${id}`, {
+        const response = await fetch(`https://pharma-pulse-8vof.onrender.com/api/billing/${id}`, {
           method: 'DELETE',
           headers: {
             'Authorization': `Bearer ${localStorage.getItem('token')}`

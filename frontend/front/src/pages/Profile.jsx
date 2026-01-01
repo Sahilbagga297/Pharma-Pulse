@@ -46,7 +46,7 @@ const Profile = () => {
   // Fetch profile data
   const fetchProfile = async () => {
     try {
-      const response = await fetch('http://localhost:5000/api/billing/profile', {
+      const response = await fetch('https://pharma-pulse-8vof.onrender.com/api/billing/profile', {
         headers: {
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json'
@@ -80,7 +80,7 @@ const Profile = () => {
   // Update profile
   const updateProfile = async () => {
     try {
-      const response = await fetch('http://localhost:5000/api/billing/profile', {
+      const response = await fetch('https://pharma-pulse-8vof.onrender.com/api/billing/profile', {
         method: 'PUT',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -112,7 +112,7 @@ const Profile = () => {
 
     try {
       // Add to user profile as before
-      const response = await fetch('http://localhost:5000/api/billing/profile/visit', {
+      const response = await fetch('https://pharma-pulse-8vof.onrender.com/api/billing/profile/visit', {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -122,7 +122,7 @@ const Profile = () => {
       });
 
       // Also add to Doctor collection for dropdown
-      await fetch('http://localhost:5000/api/doctors', {
+      await fetch('https://pharma-pulse-8vof.onrender.com/api/doctors', {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -169,7 +169,7 @@ const Profile = () => {
   // Update all visit counts
   const updateVisits = async () => {
     try {
-      const response = await fetch('http://localhost:5000/api/billing/profile/visits/update', {
+      const response = await fetch('https://pharma-pulse-8vof.onrender.com/api/billing/profile/visits/update', {
         method: 'PUT',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -215,7 +215,7 @@ const Profile = () => {
     setAnalyzingDoctor(visit.doctorName);
     try {
       // Fetch business summary for the specific doctor
-      const response = await fetch('http://localhost:5000/api/billing/profile/business-summary', {
+      const response = await fetch('https://pharma-pulse-8vof.onrender.com/api/billing/profile/business-summary', {
         headers: {
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json'
@@ -282,7 +282,7 @@ const Profile = () => {
       };
 
       // Update profile visits
-      const response = await fetch('http://localhost:5000/api/billing/profile/visits/update', {
+      const response = await fetch('https://pharma-pulse-8vof.onrender.com/api/billing/profile/visits/update', {
         method: 'PUT',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -299,7 +299,7 @@ const Profile = () => {
         
         // Also update the Doctor collection for dropdown synchronization
         try {
-          const doctorUpdateResponse = await fetch('http://localhost:5000/api/doctors', {
+          const doctorUpdateResponse = await fetch('https://pharma-pulse-8vof.onrender.com/api/doctors', {
             method: 'PUT',
             headers: {
               'Authorization': `Bearer ${token}`,
@@ -341,7 +341,7 @@ const Profile = () => {
   const handleDeleteDoctorVisit = async (visitIndex) => {
     if (window.confirm('Are you sure you want to delete this doctor visit? This action cannot be undone.')) {
       try {
-        const response = await fetch('http://localhost:5000/api/billing/profile/visit', {
+        const response = await fetch('https://pharma-pulse-8vof.onrender.com/api/billing/profile/visit', {
           method: 'DELETE',
           headers: {
             'Authorization': `Bearer ${token}`,
@@ -378,7 +378,7 @@ const Profile = () => {
 
     setReportsLoading(true);
     try {
-      const response = await fetch(`http://localhost:5000/api/billing/reports?period=${selectedPeriod}`, {
+      const response = await fetch(`https://pharma-pulse-8vof.onrender.com/api/billing/reports?period=${selectedPeriod}`, {
         headers: {
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json'
@@ -407,7 +407,7 @@ const Profile = () => {
     }
 
     try {
-      const response = await fetch(`http://localhost:5000/api/billing/reports/download?period=${selectedPeriod}&format=${format}`, {
+      const response = await fetch(`https://pharma-pulse-8vof.onrender.com/api/billing/reports/download?period=${selectedPeriod}&format=${format}`, {
         headers: {
           'Authorization': `Bearer ${token}`,
         }
