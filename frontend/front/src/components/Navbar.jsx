@@ -53,8 +53,7 @@ const Navbar = () => {
                 key={item.name}
                 to={item.path}
                 className={({ isActive }) =>
-                  `text-blue-800 hover:text-blue-600 transition-all duration-300 font-medium relative group px-3 py-2 rounded-lg hover:bg-blue-50 ${
-                    isActive ? "text-blue-600 bg-blue-100" : ""
+                  `text-blue-800 hover:text-blue-600 transition-all duration-300 font-medium relative group px-3 py-2 rounded-lg hover:bg-blue-50 ${isActive ? "text-blue-600 bg-blue-100" : ""
                   }`
                 }
               >
@@ -62,7 +61,7 @@ const Navbar = () => {
                 <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-blue-500 to-blue-700 group-hover:w-full transition-all duration-300"></span>
               </NavLink>
             ))}
-            
+
             {/* Auth Buttons */}
             <div className="flex items-center space-x-4">
               {user ? (
@@ -85,7 +84,7 @@ const Navbar = () => {
 
           {/* Mobile Menu Button */}
           <button
-            className="md:hidden bg-blue-100 hover:bg-blue-200 p-2 rounded-lg transition-colors duration-200"
+            className="md:hidden bg-blue-100 hover:bg-blue-200 p-2.5 rounded-lg transition-colors duration-200"
             onClick={toggleMobileMenu}
             aria-label="Toggle mobile menu"
           >
@@ -105,15 +104,14 @@ const Navbar = () => {
                   to={item.path}
                   onClick={() => setIsMobileMenuOpen(false)}
                   className={({ isActive }) =>
-                    `block text-blue-800 hover:text-blue-600 transition-all duration-300 font-medium px-4 py-3 rounded-lg hover:bg-blue-50 ${
-                      isActive ? "text-blue-600 bg-blue-100" : ""
+                    `block text-blue-800 hover:text-blue-600 transition-all duration-300 font-medium px-4 py-3 rounded-lg hover:bg-blue-50 ${isActive ? "text-blue-600 bg-blue-100" : ""
                     }`
                   }
                 >
                   {item.name}
                 </NavLink>
               ))}
-              
+
               {/* Mobile Auth Buttons */}
               <div className="pt-2 border-t border-blue-200">
                 {user ? (

@@ -5,16 +5,16 @@ import './BillingForm.css';
 
 const MRSalesTransactionDashboard = () => {
   const particlesRef = useRef(null);
-  const { 
-    getBillingEntries, 
-    saveBillingEntry, 
-    downloadExcel, 
+  const {
+    getBillingEntries,
+    saveBillingEntry,
+    downloadExcel,
     createSampleData: createSampleDataApi,
-    loading: apiLoading, 
-    error: apiError, 
-    clearError 
+    loading: apiLoading,
+    error: apiError,
+    clearError
   } = useBillingApi();
-  
+
   const [formData, setFormData] = useState({
     doctorName: '',
     doctorDegree: '',
@@ -47,7 +47,7 @@ const MRSalesTransactionDashboard = () => {
           'Authorization': `Bearer ${token}`
         }
       });
-      
+
       if (response.ok) {
         const data = await response.json();
         setDoctors(data || []);
@@ -79,7 +79,7 @@ const MRSalesTransactionDashboard = () => {
 
     window.addEventListener('storage', handleStorageChange);
     window.addEventListener('doctorsUpdated', handleCustomEvent);
-    
+
     return () => {
       window.removeEventListener('storage', handleStorageChange);
       window.removeEventListener('doctorsUpdated', handleCustomEvent);
@@ -191,7 +191,7 @@ const MRSalesTransactionDashboard = () => {
       if (!doctorResponse.ok) {
         let errorMessage = 'Failed to create doctor';
         let existingDoctor = null;
-        
+
         try {
           const errorData = await doctorResponse.json();
           errorMessage = errorData.message || errorMessage;
@@ -200,7 +200,7 @@ const MRSalesTransactionDashboard = () => {
           // If response is not JSON (like HTML error page), use status text
           errorMessage = `Server error: ${doctorResponse.status} ${doctorResponse.statusText}`;
         }
-        
+
         // If doctor already exists, handle it gracefully
         if (doctorResponse.status === 409 && existingDoctor) {
           // Refresh doctors list to include the existing doctor
@@ -209,7 +209,7 @@ const MRSalesTransactionDashboard = () => {
               'Authorization': `Bearer ${token}`
             }
           });
-          
+
           if (doctorsResponse.ok) {
             const doctorsData = await doctorsResponse.json();
             setDoctors(doctorsData || []);
@@ -230,12 +230,12 @@ const MRSalesTransactionDashboard = () => {
           setAddingDoctor(false);
           return;
         }
-        
+
         throw new Error(errorMessage);
       }
 
       const doctorData = await doctorResponse.json();
-      
+
       // Add doctor visit (this will automatically set visits to 1)
       const visitResponse = await fetch('https://pharma-pulse-8vof.onrender.com/api/billing/profile/visit', {
         method: 'POST',
@@ -266,7 +266,7 @@ const MRSalesTransactionDashboard = () => {
           'Authorization': `Bearer ${token}`
         }
       });
-      
+
       if (doctorsResponse.ok) {
         const doctorsData = await doctorsResponse.json();
         setDoctors(doctorsData || []);
@@ -336,14 +336,14 @@ const MRSalesTransactionDashboard = () => {
     try {
       setDownloading(true);
       setMessage('Preparing Excel file for download...');
-      
+
       // First check if there are entries to download
       if (entries.length === 0) {
         setMessage('No data available to download. Please add some transactions first.');
         setDownloading(false);
         return;
       }
-      
+
       await downloadExcel();
       setMessage('Excel file downloaded successfully! 📊');
     } catch (error) {
@@ -358,7 +358,7 @@ const MRSalesTransactionDashboard = () => {
     try {
       setCreatingSample(true);
       setMessage('Creating sample data for testing...');
-      
+
       const response = await createSampleDataApi();
       if (response.success) {
         setMessage(`Sample data created successfully! ${response.message}`);
@@ -431,8 +431,8 @@ const MRSalesTransactionDashboard = () => {
 
 
     try {
-      const dataToSend = { 
-        ...formData, 
+      const dataToSend = {
+        ...formData,
         doctorDegree: formData.doctorDegree.trim(),
         doctorLocation: formData.doctorLocation.trim(),
         sampleUnits: parseFloat(formData.sampleUnits),
@@ -444,7 +444,7 @@ const MRSalesTransactionDashboard = () => {
         amountToPay: parseFloat(result.amountToPay),
         mrAmount: parseFloat(result.mrAmount)
       };
-      
+
       const responseData = await saveBillingEntry(dataToSend);
       if (responseData.success) {
         setMessage(`Transaction saved successfully! ${responseData.message}`);
@@ -536,7 +536,7 @@ const MRSalesTransactionDashboard = () => {
             'Authorization': `Bearer ${localStorage.getItem('token')}`
           }
         });
-        
+
         if (response.ok) {
           const responseData = await response.json();
           setMessage(responseData.message || 'Entry deleted successfully!');
@@ -593,7 +593,7 @@ const MRSalesTransactionDashboard = () => {
         <div className="absolute w-32 h-32 rounded-full bg-white bg-opacity-5 top-10 left-10 animate-pulse-gentle" />
         <div className="absolute w-24 h-24 rounded-full bg-white bg-opacity-8 bottom-20 right-20 animate-pulse-gentle" style={{ animationDelay: '1s' }} />
         <div className="absolute w-16 h-16 rounded-full bg-white bg-opacity-6 top-1/2 right-10 animate-pulse-gentle" style={{ animationDelay: '2s' }} />
-        
+
         {/* Medical symbols */}
         <div className="absolute text-6xl text-white text-opacity-5 top-1/4 left-1/4 animate-pulse-gentle">⚕️</div>
         <div className="absolute text-4xl text-white text-opacity-8 bottom-1/3 right-1/3 animate-pulse-gentle" style={{ animationDelay: '1.5s' }}>💊</div>
@@ -620,14 +620,13 @@ const MRSalesTransactionDashboard = () => {
       </header>
 
       {/* Main Content */}
-      <main className="relative z-10 max-w-4xl mx-auto px-6 py-8">
+      <main className="relative z-10 max-w-4xl mx-auto px-4 md:px-6 py-8">
         {/* Success/Error Message */}
         {message && (
-          <div className={`mb-6 p-4 rounded-2xl backdrop-blur-lg animate-slide-in ${
-            message.includes('successfully') 
-              ? 'bg-green-500 bg-opacity-20 text-green-100 border border-green-400 border-opacity-30' 
+          <div className={`mb-6 p-4 rounded-2xl backdrop-blur-lg animate-slide-in ${message.includes('successfully')
+              ? 'bg-green-500 bg-opacity-20 text-green-100 border border-green-400 border-opacity-30'
               : 'bg-red-50 bg-opacity-20 text-white border border-red-400 border-opacity-30'
-          }`}>
+            }`}>
             <div className="flex items-center gap-3">
               <span className="text-xl">
                 {message.includes('successfully') ? '✅' : '⚠️'}
@@ -638,7 +637,7 @@ const MRSalesTransactionDashboard = () => {
         )}
 
         {/* Transaction Form */}
-        <div className="bg-white bg-opacity-95 backdrop-blur-lg rounded-3xl shadow-2xl p-8 mb-8 animate-slide-in">
+        <div className="bg-white bg-opacity-95 backdrop-blur-lg rounded-3xl shadow-2xl p-5 md:p-8 mb-8 animate-slide-in">
           <div className="flex items-center gap-3 mb-6">
             <div className="w-12 h-12 bg-gradient-to-r from-blue-600 to-blue-700 rounded-2xl flex items-center justify-center text-white text-xl">
               📋
@@ -795,11 +794,10 @@ const MRSalesTransactionDashboard = () => {
             <button
               type="submit"
               disabled={loading}
-              className={`w-full py-4 px-8 rounded-2xl font-bold text-lg transition-all duration-300 transform hover:scale-105 ${
-                loading
+              className={`w-full py-4 px-8 rounded-2xl font-bold text-lg transition-all duration-300 transform hover:scale-105 ${loading
                   ? 'bg-gray-400 cursor-not-allowed'
                   : 'bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white shadow-lg hover:shadow-xl'
-              }`}
+                }`}
             >
               {loading ? (
                 <div className="flex items-center justify-center gap-3">
@@ -817,7 +815,7 @@ const MRSalesTransactionDashboard = () => {
         </div>
 
         {/* Transaction History Section */}
-        <div className="bg-white bg-opacity-95 backdrop-blur-lg rounded-3xl shadow-2xl p-8 animate-slide-in">
+        <div className="bg-white bg-opacity-95 backdrop-blur-lg rounded-3xl shadow-2xl p-5 md:p-8 animate-slide-in">
           <div className="flex items-center justify-between mb-6">
             <div className="flex items-center gap-3">
               <div className="w-12 h-12 bg-gradient-to-r from-green-600 to-green-700 rounded-2xl flex items-center justify-center text-white text-xl">
@@ -845,11 +843,10 @@ const MRSalesTransactionDashboard = () => {
               <button
                 onClick={handleDownloadExcel}
                 disabled={downloading || entries.length === 0}
-                className={`px-4 py-2 rounded-xl font-medium transition-colors duration-300 flex items-center gap-2 ${
-                  downloading || entries.length === 0
+                className={`px-4 py-2 rounded-xl font-medium transition-colors duration-300 flex items-center gap-2 ${downloading || entries.length === 0
                     ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
                     : 'bg-green-100 hover:bg-green-200 text-green-700'
-                }`}
+                  }`}
               >
                 {downloading ? (
                   <div className="flex items-center gap-2">
@@ -1030,11 +1027,10 @@ const MRSalesTransactionDashboard = () => {
                   <button
                     onClick={handleCreateSampleData}
                     disabled={creatingSample}
-                    className={`px-6 py-3 rounded-xl font-medium transition-colors duration-300 flex items-center gap-2 mx-auto ${
-                      creatingSample
+                    className={`px-6 py-3 rounded-xl font-medium transition-colors duration-300 flex items-center gap-2 mx-auto ${creatingSample
                         ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
                         : 'bg-blue-100 hover:bg-blue-200 text-blue-700'
-                    }`}
+                      }`}
                   >
                     {creatingSample ? (
                       <div className="flex items-center gap-2">
@@ -1118,11 +1114,10 @@ const MRSalesTransactionDashboard = () => {
                 <button
                   type="submit"
                   disabled={addingDoctor}
-                  className={`flex-1 py-3 px-6 rounded-xl font-bold transition-all duration-300 ${
-                    addingDoctor
+                  className={`flex-1 py-3 px-6 rounded-xl font-bold transition-all duration-300 ${addingDoctor
                       ? 'bg-gray-400 cursor-not-allowed'
                       : 'bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white shadow-lg hover:shadow-xl'
-                  }`}
+                    }`}
                 >
                   {addingDoctor ? (
                     <div className="flex items-center justify-center gap-2">

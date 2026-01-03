@@ -108,20 +108,20 @@ const MRDataManagementHome = () => {
 
 
       {/* Main Content */}
-      <main className="relative z-10 max-w-7xl mx-auto px-6 py-8 mt-24">
+      <main className="relative z-10 max-w-7xl mx-auto px-4 md:px-6 py-8 mt-20 md:mt-24">
         {/* Hero Section */}
-        <section ref={heroRef} className="text-center mb-20">
-          <h1 className="text-6xl md:text-8xl font-bold mb-8 leading-tight">
+        <section ref={heroRef} className="text-center mb-12 md:mb-20">
+          <h1 className="text-4xl md:text-6xl lg:text-8xl font-bold mb-6 md:mb-8 leading-tight">
             <span className="gradient-text">Medical Representative</span>
             <br />
             <span className="text-white">Data Management</span>
           </h1>
-          
+
           <p className="text-xl md:text-2xl text-gray-300 mb-12 leading-relaxed max-w-5xl mx-auto">
-            Transform your pharmaceutical sales with intelligent tracking, automated calculations, 
+            Transform your pharmaceutical sales with intelligent tracking, automated calculations,
             and comprehensive analytics - all powered by cutting-edge technology
           </p>
-          
+
           <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
             <button
               onClick={handleGetStarted}
@@ -130,7 +130,7 @@ const MRDataManagementHome = () => {
               <span className="relative z-10">Start Your Journey</span>
               <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-slate-600 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
             </button>
-            
+
             <button
               onClick={() => handleNavigation('demo')}
               className="px-10 py-5 glass-effect text-white rounded-full text-lg font-semibold hover:bg-white hover:bg-opacity-20 transition-all duration-300"
@@ -148,8 +148,8 @@ const MRDataManagementHome = () => {
             { number: '23%', label: 'Growth Rate', icon: '📈' },
             { number: '₹1.2M', label: 'Monthly Savings', icon: '💎' }
           ].map((stat, index) => (
-            <div 
-              key={index} 
+            <div
+              key={index}
               className="glass-effect p-8 rounded-3xl text-center card-hover transform transition-all duration-500"
               style={{ animationDelay: `${index * 0.1}s` }}
             >
@@ -163,39 +163,39 @@ const MRDataManagementHome = () => {
         {/* Feature Cards */}
         <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
           {[
-            { 
-              icon: '📊', 
-              title: 'Smart Purchase Tracking', 
+            {
+              icon: '📊',
+              title: 'Smart Purchase Tracking',
               desc: 'AI-powered tracking of medicine purchases with predictive analytics and automated inventory management.',
               color: 'from-blue-600 to-blue-800'
             },
-            { 
-              icon: '💰', 
-              title: 'Dynamic Discount Engine', 
+            {
+              icon: '💰',
+              title: 'Dynamic Discount Engine',
               desc: 'Intelligent discount calculations with tiered pricing, bulk discounts, and personalized offers.',
               color: 'from-slate-600 to-blue-700'
             },
-            { 
-              icon: '🧾', 
-              title: 'Automated Payments', 
+            {
+              icon: '🧾',
+              title: 'Automated Payments',
               desc: 'Streamlined payment processing with automated reminders and integrated billing systems.',
               color: 'from-blue-700 to-slate-700'
             },
-            { 
-              icon: '📈', 
-              title: 'Advanced Analytics', 
+            {
+              icon: '📈',
+              title: 'Advanced Analytics',
               desc: 'Real-time dashboards with predictive insights and comprehensive financial reporting.',
               color: 'from-blue-800 to-slate-800'
             },
-            { 
-              icon: '👨‍⚕️', 
-              title: 'Doctor CRM', 
+            {
+              icon: '👨‍⚕️',
+              title: 'Doctor CRM',
               desc: 'Complete doctor relationship management with interaction history and preference tracking.',
               color: 'from-slate-600 to-blue-600'
             },
-            { 
-              icon: '🎯', 
-              title: 'Smart Inventory', 
+            {
+              icon: '🎯',
+              title: 'Smart Inventory',
               desc: 'Predictive inventory management with expiry tracking and automated reorder points.',
               color: 'from-blue-600 to-slate-600'
             }
@@ -207,7 +207,7 @@ const MRDataManagementHome = () => {
             >
               {/* Gradient Background */}
               <div className={`absolute inset-0 bg-gradient-to-br ${card.color} opacity-0 group-hover:opacity-10 transition-opacity duration-500`} />
-              
+
               <div className="relative z-10">
                 <div className={`w-16 h-16 bg-gradient-to-r ${card.color} rounded-2xl flex items-center justify-center mb-6 text-2xl transform group-hover:scale-110 transition-transform duration-300`}>
                   {card.icon}
@@ -219,7 +219,7 @@ const MRDataManagementHome = () => {
                   {card.desc}
                 </p>
               </div>
-              
+
               {/* Hover Effect Border */}
               <div className="absolute inset-0 rounded-3xl border-2 border-transparent group-hover:border-white group-hover:border-opacity-20 transition-all duration-300" />
             </div>
@@ -265,7 +265,7 @@ const MRDataManagementHome = () => {
                     <option value="all">All Time</option>
                   </select>
                 </div>
-                
+
                 <button
                   onClick={() => fetchReports()}
                   disabled={loading}
@@ -424,14 +424,14 @@ const MRDataManagementHome = () => {
                   )}
 
                   {/* No Data Message */}
-                  {(!reportsData.topDoctors || reportsData.topDoctors.length === 0) && 
-                   (!reportsData.recentSales || reportsData.recentSales.length === 0) && (
-                    <div className="text-center py-12">
-                      <BarChart3 className="w-16 h-16 text-gray-400 mx-auto mb-4" />
-                      <p className="text-gray-600 text-lg">No sales data available for the selected period</p>
-                      <p className="text-gray-500 text-sm">Start recording sales to see your reports</p>
-                    </div>
-                  )}
+                  {(!reportsData.topDoctors || reportsData.topDoctors.length === 0) &&
+                    (!reportsData.recentSales || reportsData.recentSales.length === 0) && (
+                      <div className="text-center py-12">
+                        <BarChart3 className="w-16 h-16 text-gray-400 mx-auto mb-4" />
+                        <p className="text-gray-600 text-lg">No sales data available for the selected period</p>
+                        <p className="text-gray-500 text-sm">Start recording sales to see your reports</p>
+                      </div>
+                    )}
                 </div>
               ) : (
                 <div className="text-center py-12">

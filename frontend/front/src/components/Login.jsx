@@ -51,7 +51,7 @@ const Login = () => {
   return (
     <AnimatedBackground>
       <div className="flex items-center justify-center min-h-[calc(100vh-200px)] p-4">
-        <div className="bg-white bg-opacity-95 backdrop-blur-lg rounded-3xl shadow-2xl p-8 w-full max-w-md">
+        <div className="bg-white bg-opacity-95 backdrop-blur-lg rounded-3xl shadow-2xl p-6 md:p-8 w-full max-w-md">
           <div className="text-center mb-8">
             <div className="w-16 h-16 bg-gradient-to-r from-blue-600 to-blue-700 rounded-2xl flex items-center justify-center text-white text-2xl mx-auto mb-4">
               💼
@@ -113,13 +113,12 @@ const Login = () => {
             </div>
 
             {message && (
-              <div className={`p-3 rounded-lg text-sm ${
-                message.includes('success') 
-                  ? 'bg-green-100 text-green-800 border border-green-200' 
+              <div className={`p-3 rounded-lg text-sm ${message.includes('success')
+                  ? 'bg-green-100 text-green-800 border border-green-200'
                   : message.includes('No user found') || message.includes('Wrong password')
-                  ? 'bg-red-100 text-red-800 border border-red-200'
-                  : 'bg-yellow-100 text-yellow-800 border border-yellow-200'
-              }`}>
+                    ? 'bg-red-100 text-red-800 border border-red-200'
+                    : 'bg-yellow-100 text-yellow-800 border border-yellow-200'
+                }`}>
                 <div className="flex items-center gap-2">
                   {message.includes('No user found') && (
                     <span className="text-red-600">⚠️</span>
@@ -138,11 +137,10 @@ const Login = () => {
             <button
               type="submit"
               disabled={loading}
-              className={`w-full py-3 px-6 rounded-xl font-semibold text-white transition-all duration-300 transform hover:scale-105 ${
-                loading
+              className={`w-full py-3 px-6 rounded-xl font-semibold text-white transition-all duration-300 transform hover:scale-105 ${loading
                   ? 'bg-gray-400 cursor-not-allowed'
                   : 'bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 shadow-lg hover:shadow-xl'
-              }`}
+                }`}
             >
               {loading ? (
                 <div className="flex items-center justify-center gap-2">
@@ -160,8 +158,8 @@ const Login = () => {
               onClick={() => setIsRegister(!isRegister)}
               className="w-full py-3 px-6 rounded-xl font-semibold text-white transition-all duration-300 transform hover:scale-105 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 shadow-lg hover:shadow-xl"
             >
-              {isRegister 
-                ? 'Already have an account? Sign In' 
+              {isRegister
+                ? 'Already have an account? Sign In'
                 : "Don't have an account? Sign Up"
               }
             </button>
