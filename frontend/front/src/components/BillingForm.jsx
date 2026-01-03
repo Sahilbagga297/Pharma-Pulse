@@ -624,8 +624,8 @@ const MRSalesTransactionDashboard = () => {
         {/* Success/Error Message */}
         {message && (
           <div className={`mb-6 p-4 rounded-2xl backdrop-blur-lg animate-slide-in ${message.includes('successfully')
-              ? 'bg-green-500 bg-opacity-20 text-green-100 border border-green-400 border-opacity-30'
-              : 'bg-red-50 bg-opacity-20 text-white border border-red-400 border-opacity-30'
+            ? 'bg-green-500 bg-opacity-20 text-green-100 border border-green-400 border-opacity-30'
+            : 'bg-red-50 bg-opacity-20 text-white border border-red-400 border-opacity-30'
             }`}>
             <div className="flex items-center gap-3">
               <span className="text-xl">
@@ -795,8 +795,8 @@ const MRSalesTransactionDashboard = () => {
               type="submit"
               disabled={loading}
               className={`w-full py-4 px-8 rounded-2xl font-bold text-lg transition-all duration-300 transform hover:scale-105 ${loading
-                  ? 'bg-gray-400 cursor-not-allowed'
-                  : 'bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white shadow-lg hover:shadow-xl'
+                ? 'bg-gray-400 cursor-not-allowed'
+                : 'bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white shadow-lg hover:shadow-xl'
                 }`}
             >
               {loading ? (
@@ -844,8 +844,8 @@ const MRSalesTransactionDashboard = () => {
                 onClick={handleDownloadExcel}
                 disabled={downloading || entries.length === 0}
                 className={`px-4 py-2 rounded-xl font-medium transition-colors duration-300 flex items-center gap-2 ${downloading || entries.length === 0
-                    ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
-                    : 'bg-green-100 hover:bg-green-200 text-green-700'
+                  ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
+                  : 'bg-green-100 hover:bg-green-200 text-green-700'
                   }`}
               >
                 {downloading ? (
@@ -964,7 +964,7 @@ const MRSalesTransactionDashboard = () => {
                             <span className="text-xl">👨‍⚕️</span>
                             <h4 className="text-lg font-bold text-blue-800">{entry.doctorName}</h4>
                           </div>
-                          <div className="grid md:grid-cols-4 gap-4 text-sm mb-3">
+                          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm mb-3">
                             <div>
                               <span className="text-gray-500">Degree:</span>
                               <p className="font-semibold text-gray-800">{entry.doctorDegree}</p>
@@ -982,7 +982,7 @@ const MRSalesTransactionDashboard = () => {
                               <p className="font-semibold text-orange-600">{entry.discountPercentage}%</p>
                             </div>
                           </div>
-                          <div className="grid md:grid-cols-3 gap-4 text-sm">
+                          <div className="grid grid-cols-2 md:grid-cols-3 gap-4 text-sm">
                             <div>
                               <span className="text-gray-500">Total Order:</span>
                               <p className="font-semibold text-gray-800">₹{entry.totalOrderAmount}</p>
@@ -1006,14 +1006,19 @@ const MRSalesTransactionDashboard = () => {
                             {new Date(entry.timestamp).toLocaleTimeString()}
                           </span>
                           <br />
-                          <button
-                            className="mt-2 px-3 py-1 bg-yellow-400 text-white rounded text-xs"
-                            onClick={() => handleEditClick(index)}
-                          >Edit</button>
-                          <button
-                            className="mt-2 ml-2 px-3 py-1 bg-red-500 text-white rounded text-xs"
-                            onClick={() => handleDelete(entry._id)}
-                          >Delete</button>
+                          <span className="text-xs text-gray-400 block mb-2">
+                            {new Date(entry.timestamp).toLocaleTimeString()}
+                          </span>
+                          <div className="flex justify-end gap-2">
+                            <button
+                              className="px-3 py-1 bg-yellow-400 text-white rounded text-xs"
+                              onClick={() => handleEditClick(index)}
+                            >Edit</button>
+                            <button
+                              className="px-3 py-1 bg-red-500 text-white rounded text-xs"
+                              onClick={() => handleDelete(entry._id)}
+                            >Delete</button>
+                          </div>
                         </div>
                       </div>
                     )}
@@ -1028,8 +1033,8 @@ const MRSalesTransactionDashboard = () => {
                     onClick={handleCreateSampleData}
                     disabled={creatingSample}
                     className={`px-6 py-3 rounded-xl font-medium transition-colors duration-300 flex items-center gap-2 mx-auto ${creatingSample
-                        ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
-                        : 'bg-blue-100 hover:bg-blue-200 text-blue-700'
+                      ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
+                      : 'bg-blue-100 hover:bg-blue-200 text-blue-700'
                       }`}
                   >
                     {creatingSample ? (
@@ -1115,8 +1120,8 @@ const MRSalesTransactionDashboard = () => {
                   type="submit"
                   disabled={addingDoctor}
                   className={`flex-1 py-3 px-6 rounded-xl font-bold transition-all duration-300 ${addingDoctor
-                      ? 'bg-gray-400 cursor-not-allowed'
-                      : 'bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white shadow-lg hover:shadow-xl'
+                    ? 'bg-gray-400 cursor-not-allowed'
+                    : 'bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white shadow-lg hover:shadow-xl'
                     }`}
                 >
                   {addingDoctor ? (

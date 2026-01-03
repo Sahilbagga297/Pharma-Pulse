@@ -96,15 +96,15 @@ const Navbar = () => {
 
         {/* Mobile Menu */}
         {isMobileMenuOpen && (
-          <div className="md:hidden bg-white/95 backdrop-blur-lg border-t border-blue-200/50 shadow-lg">
-            <div className="px-4 py-4 space-y-2">
+          <div className="md:hidden bg-white/95 backdrop-blur-lg border-t border-blue-200/50 shadow-lg absolute left-0 right-0 top-16 animate-slide-in-top">
+            <div className="px-4 py-4 space-y-3">
               {(user ? authenticatedNavItems : navItems).map((item) => (
                 <NavLink
                   key={item.name}
                   to={item.path}
                   onClick={() => setIsMobileMenuOpen(false)}
                   className={({ isActive }) =>
-                    `block text-blue-800 hover:text-blue-600 transition-all duration-300 font-medium px-4 py-3 rounded-lg hover:bg-blue-50 ${isActive ? "text-blue-600 bg-blue-100" : ""
+                    `block text-blue-800 hover:text-blue-600 transition-all duration-300 font-medium px-4 py-3 rounded-lg hover:bg-blue-50 ${isActive ? "text-blue-600 bg-blue-100 ring-1 ring-blue-200" : ""
                     }`
                   }
                 >
@@ -113,14 +113,14 @@ const Navbar = () => {
               ))}
 
               {/* Mobile Auth Buttons */}
-              <div className="pt-2 border-t border-blue-200">
+              <div className="pt-4 border-t border-blue-100">
                 {user ? (
                   <button
                     onClick={() => {
                       handleLogout();
                       setIsMobileMenuOpen(false);
                     }}
-                    className="w-full text-left px-4 py-3 text-red-600 hover:text-red-800 transition-colors duration-300 font-medium"
+                    className="w-full text-center px-4 py-3 bg-red-50 hover:bg-red-100 text-red-600 hover:text-red-800 rounded-lg transition-colors duration-300 font-medium"
                   >
                     Logout
                   </button>
@@ -128,7 +128,7 @@ const Navbar = () => {
                   <NavLink
                     to="/login"
                     onClick={() => setIsMobileMenuOpen(false)}
-                    className="block px-4 py-3 text-blue-600 hover:text-blue-800 transition-colors duration-300 font-medium"
+                    className="block text-center px-4 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors duration-300 font-medium"
                   >
                     Login
                   </NavLink>
