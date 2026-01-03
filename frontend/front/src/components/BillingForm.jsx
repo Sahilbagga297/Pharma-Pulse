@@ -816,9 +816,9 @@ const MRSalesTransactionDashboard = () => {
 
         {/* Transaction History Section */}
         <div className="bg-white bg-opacity-95 backdrop-blur-lg rounded-3xl shadow-2xl p-5 md:p-8 animate-slide-in">
-          <div className="flex items-center justify-between mb-6">
-            <div className="flex items-center gap-3">
-              <div className="w-12 h-12 bg-gradient-to-r from-green-600 to-green-700 rounded-2xl flex items-center justify-center text-white text-xl">
+          <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 mb-6">
+            <div className="flex items-center gap-3 w-full md:w-auto">
+              <div className="w-12 h-12 bg-gradient-to-r from-green-600 to-green-700 rounded-2xl flex items-center justify-center text-white text-xl flex-shrink-0">
                 📊
               </div>
               <div>
@@ -826,7 +826,7 @@ const MRSalesTransactionDashboard = () => {
                 <p className="text-gray-600">Recent billing entries ({entries.length} total)</p>
               </div>
             </div>
-            <div className="flex gap-3">
+            <div className="flex flex-wrap gap-3 w-full md:w-auto">
               <button
                 onClick={loadEntries}
                 className="px-4 py-2 bg-blue-100 hover:bg-blue-200 text-blue-700 rounded-xl font-medium transition-colors duration-300 flex items-center gap-2"
@@ -958,13 +958,13 @@ const MRSalesTransactionDashboard = () => {
                         </div>
                       </form>
                     ) : (
-                      <div className="flex items-start justify-between">
-                        <div className="flex-1">
+                      <div className="flex flex-col md:flex-row items-start justify-between gap-4">
+                        <div className="flex-1 w-full">
                           <div className="flex items-center gap-2 mb-2">
                             <span className="text-xl">👨‍⚕️</span>
-                            <h4 className="text-lg font-bold text-blue-800">{entry.doctorName}</h4>
+                            <h4 className="text-lg font-bold text-blue-800 break-words">{entry.doctorName}</h4>
                           </div>
-                          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm mb-3">
+                          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4 text-sm mb-3">
                             <div>
                               <span className="text-gray-500">Degree:</span>
                               <p className="font-semibold text-gray-800">{entry.doctorDegree}</p>
@@ -982,7 +982,7 @@ const MRSalesTransactionDashboard = () => {
                               <p className="font-semibold text-orange-600">{entry.discountPercentage}%</p>
                             </div>
                           </div>
-                          <div className="grid grid-cols-2 md:grid-cols-3 gap-4 text-sm">
+                          <div className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-4 text-sm">
                             <div>
                               <span className="text-gray-500">Total Order:</span>
                               <p className="font-semibold text-gray-800">₹{entry.totalOrderAmount}</p>
@@ -997,19 +997,17 @@ const MRSalesTransactionDashboard = () => {
                             </div>
                           </div>
                         </div>
-                        <div className="text-right">
-                          <span className="text-xs text-gray-500">
-                            {new Date(entry.timestamp).toLocaleDateString()}
-                          </span>
-                          <br />
-                          <span className="text-xs text-gray-400">
-                            {new Date(entry.timestamp).toLocaleTimeString()}
-                          </span>
-                          <br />
-                          <span className="text-xs text-gray-400 block mb-2">
-                            {new Date(entry.timestamp).toLocaleTimeString()}
-                          </span>
-                          <div className="flex justify-end gap-2">
+                        <div className="w-full md:w-auto text-left md:text-right mt-2 md:mt-0 pt-3 md:pt-0 border-t md:border-t-0 border-gray-100 md:border-none">
+                          <div className="flex flex-row md:flex-col justify-between md:justify-start items-center md:items-end mb-2 md:mb-0">
+                            <span className="text-xs text-gray-500">
+                              {new Date(entry.timestamp).toLocaleDateString()}
+                            </span>
+                            <span className="text-xs text-gray-400 md:block">
+                              {new Date(entry.timestamp).toLocaleTimeString()}
+                            </span>
+                          </div>
+
+                          <div className="flex justify-end gap-2 mt-2">
                             <button
                               className="px-3 py-1 bg-yellow-400 text-white rounded text-xs"
                               onClick={() => handleEditClick(index)}
