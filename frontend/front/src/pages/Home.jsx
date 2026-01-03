@@ -111,7 +111,7 @@ const MRDataManagementHome = () => {
       <main className="relative z-10 max-w-7xl mx-auto px-4 md:px-6 py-8 mt-20 md:mt-24">
         {/* Hero Section */}
         <section ref={heroRef} className="text-center mb-12 md:mb-20">
-          <h1 className="text-4xl md:text-6xl lg:text-8xl font-bold mb-6 md:mb-8 leading-tight">
+          <h1 className="text-3xl sm:text-4xl md:text-6xl lg:text-8xl font-bold mb-6 md:mb-8 leading-tight">
             <span className="gradient-text">Medical Representative</span>
             <br />
             <span className="text-white">Data Management</span>
@@ -122,10 +122,10 @@ const MRDataManagementHome = () => {
             and comprehensive analytics - all powered by cutting-edge technology
           </p>
 
-          <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
+          <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 justify-center items-center px-4">
             <button
               onClick={handleGetStarted}
-              className="group relative px-10 py-5 bg-gradient-to-r from-blue-600 to-blue-800 text-white rounded-full text-lg font-semibold overflow-hidden transform hover:scale-105 transition-all duration-300"
+              className="group relative px-6 py-3 sm:px-10 sm:py-5 w-full sm:w-auto bg-gradient-to-r from-blue-600 to-blue-800 text-white rounded-full text-base sm:text-lg font-semibold overflow-hidden transform hover:scale-105 transition-all duration-300"
             >
               <span className="relative z-10">Start Your Journey</span>
               <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-slate-600 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
@@ -133,7 +133,7 @@ const MRDataManagementHome = () => {
 
             <button
               onClick={() => handleNavigation('demo')}
-              className="px-10 py-5 glass-effect text-white rounded-full text-lg font-semibold hover:bg-white hover:bg-opacity-20 transition-all duration-300"
+              className="px-6 py-3 sm:px-10 sm:py-5 w-full sm:w-auto glass-effect text-white rounded-full text-base sm:text-lg font-semibold hover:bg-white hover:bg-opacity-20 transition-all duration-300"
             >
               Watch Demo
             </button>
@@ -150,12 +150,12 @@ const MRDataManagementHome = () => {
           ].map((stat, index) => (
             <div
               key={index}
-              className="glass-effect p-8 rounded-3xl text-center card-hover transform transition-all duration-500"
+              className="glass-effect p-6 sm:p-8 rounded-3xl text-center card-hover transform transition-all duration-500"
               style={{ animationDelay: `${index * 0.1}s` }}
             >
-              <div className="text-4xl mb-4">{stat.icon}</div>
-              <div className="text-4xl font-bold text-white mb-2">{stat.number}</div>
-              <div className="text-gray-300 text-sm uppercase tracking-wider">{stat.label}</div>
+              <div className="text-3xl sm:text-4xl mb-4">{stat.icon}</div>
+              <div className="text-2xl sm:text-4xl font-bold text-white mb-2">{stat.number}</div>
+              <div className="text-gray-300 text-xs sm:text-sm uppercase tracking-wider">{stat.label}</div>
             </div>
           ))}
         </section>
@@ -448,11 +448,11 @@ const MRDataManagementHome = () => {
       <footer className="relative z-10 mt-20 glass-effect border-t border-white border-opacity-10">
         <div className="max-w-7xl mx-auto px-6 py-12">
           <div className="text-center">
-            <div className="text-3xl font-bold gradient-text mb-4">MR DataHub</div>
-            <p className="text-gray-400 mb-6">Empowering medical representatives with intelligent data management</p>
-            <div className="flex justify-center space-x-6">
+            <div className="text-2xl sm:text-3xl font-bold gradient-text mb-4">MR DataHub</div>
+            <p className="text-gray-400 mb-6 text-sm sm:text-base">Empowering medical representatives with intelligent data management</p>
+            <div className="flex flex-wrap justify-center gap-4 sm:gap-6">
               {['Privacy', 'Terms', 'Support', 'Contact'].map((item) => (
-                <button key={item} className="py-3 px-6 rounded-xl font-semibold text-white transition-all duration-300 transform hover:scale-105 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 shadow-lg hover:shadow-xl">
+                <button key={item} className="py-2 px-4 sm:py-3 sm:px-6 rounded-xl font-semibold text-white text-sm sm:text-base transition-all duration-300 transform hover:scale-105 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 shadow-lg hover:shadow-xl">
                   {item}
                 </button>
               ))}
