@@ -443,23 +443,6 @@ const MRDataManagementHome = () => {
           </div>
         </div>
       )}
-
-      {/* Footer */}
-      <footer className="relative z-10 mt-20 glass-effect border-t border-white border-opacity-10">
-        <div className="max-w-7xl mx-auto px-6 py-12">
-          <div className="text-center">
-            <div className="text-2xl sm:text-3xl font-bold gradient-text mb-4">MR DataHub</div>
-            <p className="text-gray-400 mb-6 text-sm sm:text-base">Empowering medical representatives with intelligent data management</p>
-            <div className="flex flex-wrap justify-center gap-4 sm:gap-6">
-              {['Privacy', 'Terms', 'Support', 'Contact'].map((item) => (
-                <button key={item} className="py-2 px-4 sm:py-3 sm:px-6 rounded-xl font-semibold text-white text-sm sm:text-base transition-all duration-300 transform hover:scale-105 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 shadow-lg hover:shadow-xl">
-                  {item}
-                </button>
-              ))}
-            </div>
-          </div>
-        </div>
-      </footer>
     </AnimatedBackground>
   );
 };
